@@ -13,13 +13,11 @@ export default function NavBar(
     {
         updateCurrentIdx,
         currentIdx,
-        views,
         icons
     }:
     {
         updateCurrentIdx: React.Dispatch<SetStateAction<number>>,
         currentIdx: number,
-        views: React.ReactNode[],
         icons: React.ReactNode[]
     }
 ) {

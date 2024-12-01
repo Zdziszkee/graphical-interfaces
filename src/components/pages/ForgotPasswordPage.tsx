@@ -1,50 +1,42 @@
-import React from 'react';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
+import CenteringBox from "../common/CenteringBox";
+import Box from "@mui/material/Box";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {displaySuccessNotification} from "../../utils/displayNotification";
+
 
 function ForgotPasswordPage() {
+    const [inputText, setInputText] = useState("");
+
+    function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setInputText(e.target.value);
+    }
+
+    function notifyAndReset() {
+        displaySuccessNotification("Password reset link has been sent to your email!")
+        setInputText("");
+    }
+
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-                padding: 2,
-                backgroundColor: '#f5f5f5',
-            }}
-        >
-            <Typography variant="h4" gutterBottom>
-                Forgot Password
-            </Typography>
-            <Box
-                component="form"
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    maxWidth: 360,
-                    gap: 2,
-                }}
-                noValidate
-                autoComplete="off"
-            >
+        <CenteringBox>
+            <ToastContainer />
+            <Box sx={{display: 'flex', alignItems: 'center', gap: '1em', flexDirection: 'column'}}>
+            <h2>Forgot Password</h2>
                 <TextField
+                    variant="filled"
                     label="Email Address"
-                    variant="outlined"
-                    fullWidth
                     required
                     type="email"
+                    value={inputText}
+                    onChange={handleInputChange}
                 />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                >
+                <Button disabled={!inputText.trim()} variant="contained" type="submit" onClick={notifyAndReset}>
                     Reset Password
                 </Button>
             </Box>
-        </Box>
+        </CenteringBox>
     );
 }
 

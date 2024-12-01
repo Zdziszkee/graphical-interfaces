@@ -37,12 +37,14 @@ const LoginPage = () => {
             >
                 <TextField
                     required
+                    variant="filled"
                     id="outlined-required"
                     label="Username"
                     onChange={(e) => setUsername(e.target.value)} // Update username state
                 />
                 <TextField
                     required
+                    variant="filled"
                     id="outlined-password-input"
                     label="Password"
                     type="password"
@@ -50,7 +52,7 @@ const LoginPage = () => {
                     onChange={(e) => setPassword(e.target.value)} // Update password state
                 />
                 <Link
-                    sx={{ alignSelf: 'flex-end', fontSize: '0.875rem', cursor: 'pointer' }}
+                    sx={{ alignSelf: 'center', fontSize: '0.875rem', cursor: 'pointer', textDecoration: 'none' }}
                     onClick={handleForgotPasswordClick}
                 >
                     Forgot Password?

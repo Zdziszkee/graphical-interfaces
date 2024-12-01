@@ -7,6 +7,8 @@ import RegisterPage from "./components/pages/RegisterPage";
 import {Route, BrowserRouter, Routes} from "react-router-dom";
 import MainPage from "./components/pages/MainPage";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const darkTheme = createTheme({
   palette: {
@@ -14,10 +16,11 @@ const darkTheme = createTheme({
   },
 });
 
+
 function App() {
   return (
       <ThemeProvider theme={darkTheme}>
-
+            <ToastContainer />
           <BrowserRouter>
               <Routes>
                   <Route path="/" element={<MainPage />}/>
