@@ -1,9 +1,12 @@
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import CenteringBox from "../common/CenteringBox";
-import {Button} from "@mui/material";
+import {Button, Link} from "@mui/material";
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'; // Import useNavigate
+
+
+
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,10 +17,16 @@ const LoginPage = () => {
     const handleRegisterClick = () => {
         navigateFunction('/register'); // Redirect to the register page
     };
-    const handleLoginClick = () => {
-        navigateFunction('/main'); // Redirect to the register page
 
-    }
+    const handleLoginClick = () => {
+        navigateFunction('/'); // Redirect to the register page
+
+    };
+
+    const handleForgotPasswordClick = () => {
+        navigateFunction('/forgot-password'); // Redirect to the forgot password page
+    };
+
     return (
         <CenteringBox>
             <Box
@@ -40,9 +49,15 @@ const LoginPage = () => {
                     autoComplete="current-password"
                     onChange={(e) => setPassword(e.target.value)} // Update password state
                 />
+                <Link
+                    sx={{ alignSelf: 'flex-end', fontSize: '0.875rem', cursor: 'pointer' }}
+                    onClick={handleForgotPasswordClick}
+                >
+                    Forgot Password?
+                </Link>
                 <Box sx={{display: 'flex', gap: '2em', justifyContent: 'space-between'}}>
 
-                    <Button variant="contained" disabled={!isFormFilled} // Disable if the form is not filled
+                    <Button variant="contained" onClick = {handleLoginClick} disabled={!isFormFilled} // Disable if the form is not filled
                     >
                         Login
                     </Button>

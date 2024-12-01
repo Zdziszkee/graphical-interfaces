@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {SetStateAction} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,19 +7,23 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {AccountCircle} from "@mui/icons-material";
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import KitchenOutlinedIcon from '@mui/icons-material/KitchenOutlined';
 
-export default function NavBar() {
+
+export default function NavBar(
+    {
+        updateCurrentIdx,
+        currentIdx,
+        views,
+        icons
+    }:
+    {
+        updateCurrentIdx: React.Dispatch<SetStateAction<number>>,
+        currentIdx: number,
+        views: React.ReactNode[],
+        icons: React.ReactNode[]
+    }
+) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const pageIcons = [
-        <ShoppingCartOutlinedIcon/>,
-        <AutoStoriesOutlinedIcon/>,
-        <KitchenOutlinedIcon/>,
-        <CalendarMonthOutlinedIcon/>
-    ];
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -28,11 +33,14 @@ export default function NavBar() {
         setAnchorEl(null);
     };
 
+    const handleIconClick = (index: number) => {
+        updateCurrentIdx(index);
+    };
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar>
-
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -40,21 +48,25 @@ export default function NavBar() {
                             justifyContent: 'center',
                         }}
                     >
-                        {pageIcons.map((icon, index) => (
+                        {icons.map((icon, index) => (
                             <IconButton
                                 key={index}
                                 size="large"
                                 edge="start"
-                                color="inherit"
+                                color={index === currentIdx ? "secondary" : "inherit"} // Zmieniono kolor
                                 aria-label="menu"
-                                sx={{mr: 2}}
+                                sx={{
+                                    mr: 2,
+                                    backgroundColor: index === currentIdx ? 'rgba(255, 255, 255, 0.2)' : 'transparent', // Dodano tle
+                                    borderRadius: 1,
+                                }}
+                                onClick={() => handleIconClick(index)}
                             >
                                 {icon}
                             </IconButton>
                         ))}
                     </Box>
 
-                    
                     <div>
                         <IconButton
                             size="large"
@@ -88,7 +100,5 @@ export default function NavBar() {
                 </Toolbar>
             </AppBar>
         </Box>
-
     );
 }
-

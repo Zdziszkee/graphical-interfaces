@@ -6,6 +6,7 @@ import { CssBaseline } from "@mui/material";
 import RegisterPage from "./components/pages/RegisterPage";
 import {Route, BrowserRouter, Routes} from "react-router-dom";
 import MainPage from "./components/pages/MainPage";
+import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 
 const darkTheme = createTheme({
   palette: {
@@ -22,6 +23,7 @@ function App() {
                   <Route path="/" element={<MainPage />}/>
                   <Route path="/login" element={<LoginPage />} /> {/* Login page route */}
                   <Route path="/register" element={<RegisterPage />} /> {/* Register page route */}
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password Route */}
               </Routes>
           </BrowserRouter>
 
