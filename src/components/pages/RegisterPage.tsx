@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-:import { TextField, Button, Typography, Link, Box } from "@mui/material";
+import { TextField, Button, Typography, Link, Box } from "@mui/material";
 import CenteringBox from "../common/CenteringBox";
 import WelcomeBanner from "../common/WelcomeBanner";
 import { useNavigate } from "react-router-dom";
@@ -96,10 +96,10 @@ const RegisterPage = () => {
                     Already have an account?{" "}
                     <Link
                         onClick={handleLoginLinkClick}
-                        style={{
+                        sx={{
                             cursor: "pointer",
                             textDecoration: "none",
-                            color: "#8B0000", // Matches theme's secondary main color
+                            color: 'primary.main',
                         }}
                     >
                         Login here
