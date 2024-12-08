@@ -4,6 +4,7 @@ import CenteringBox from "../common/CenteringBox";
 import { Button, Link, Typography } from '@mui/material';
 import {useState} from 'react'
 import Logo from '../common/Logo';
+import WelcomeBanner from '../common/WelcomeBanner';
 import {useNavigate} from 'react-router-dom'; // Import useNavigate
 
 
@@ -29,8 +30,7 @@ const LoginPage = () => {
 
     return (
         <CenteringBox>
-            <Typography variant={"h4"} sx={{fontWeight: 500, mb: 1}}>Welcome to</Typography>
-            <Logo />
+            <WelcomeBanner />
             <Box
                 component="form"
                 sx={{display: 'flex', flexDirection: 'column', placeItems: 'center', gap: '1em', "mt": 5}}
