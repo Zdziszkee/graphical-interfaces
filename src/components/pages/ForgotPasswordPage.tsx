@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Typography } from '@mui/material';
 import CenteringBox from "../common/CenteringBox";
 import Box from "@mui/material/Box";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {displaySuccessNotification} from "../../utils/displayNotification";
+import WelcomeBanner from '../common/WelcomeBanner';
 
 
 function ForgotPasswordPage() {
@@ -22,12 +23,12 @@ function ForgotPasswordPage() {
     return (
         <CenteringBox>
             <ToastContainer />
-            <Box sx={{display: 'flex', alignItems: 'center', gap: '1em', flexDirection: 'column'}}>
-            <h2>Forgot Password</h2>
+          <WelcomeBanner />
+            <Box sx={{display: 'flex', alignItems: 'center', gap: '1em', flexDirection: 'column', "mt": 4}}>
+            <Typography sx={{m: 0}} variant={"h6"}>Forgot Password</Typography>
                 <TextField
-                    variant="filled"
+                    variant="outlined"
                     label="Email Address"
-                    required
                     type="email"
                     value={inputText}
                     onChange={handleInputChange}
