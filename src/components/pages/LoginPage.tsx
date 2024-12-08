@@ -1,8 +1,9 @@
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import CenteringBox from "../common/CenteringBox";
-import {Button, Link} from "@mui/material";
+import { Button, Link, Typography } from '@mui/material';
 import {useState} from 'react'
+import Logo from '../common/Logo';
 import {useNavigate} from 'react-router-dom'; // Import useNavigate
 
 
@@ -11,60 +12,59 @@ const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // Check if both fields are filled
     const isFormFilled = username.trim() !== '' && password.trim() !== '';
     const navigateFunction = useNavigate();
     const handleRegisterClick = () => {
-        navigateFunction('/register'); // Redirect to the register page
+        navigateFunction('/register');
     };
 
     const handleLoginClick = () => {
-        navigateFunction('/'); // Redirect to the register page
+        navigateFunction('/');
 
     };
 
     const handleForgotPasswordClick = () => {
-        navigateFunction('/forgot-password'); // Redirect to the forgot password page
+        navigateFunction('/forgot-password');
     };
 
     return (
         <CenteringBox>
+            <Typography variant={"h4"} sx={{fontWeight: 500, mb: 1}}>Welcome to</Typography>
+            <Logo />
             <Box
                 component="form"
-                sx={{display: 'flex', flexDirection: 'column', placeItems: 'center', gap: '1em'}}
+                sx={{display: 'flex', flexDirection: 'column', placeItems: 'center', gap: '1em', "mt": 5}}
                 noValidate
                 autoComplete="off"
             >
                 <TextField
-                    required
-                    variant="filled"
+                    variant="outlined"
                     id="outlined-required"
                     label="Username"
-                    onChange={(e) => setUsername(e.target.value)} // Update username state
+                    onChange={(e) => setUsername(e.target.value)}
                 />
                 <TextField
-                    required
-                    variant="filled"
+                    variant="outlined"
                     id="outlined-password-input"
                     label="Password"
                     type="password"
                     autoComplete="current-password"
-                    onChange={(e) => setPassword(e.target.value)} // Update password state
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <Link
-                    sx={{ alignSelf: 'center', fontSize: '0.875rem', cursor: 'pointer', textDecoration: 'none' }}
+                    sx={{ alignSelf: 'center', fontSize: '0.875rem', cursor: 'pointer', textDecoration: 'none', color: 'text.primary' }}
                     onClick={handleForgotPasswordClick}
                 >
                     Forgot Password?
                 </Link>
                 <Box sx={{display: 'flex', gap: '2em', justifyContent: 'space-between'}}>
 
-                    <Button variant="contained" onClick = {handleLoginClick} disabled={!isFormFilled} // Disable if the form is not filled
+                    <Button variant="contained" onClick = {handleLoginClick} disabled={!isFormFilled}
                     >
                         Login
                     </Button>
                     <Button variant="contained"
-                            onClick={handleRegisterClick} // Handle register click
+                            onClick={handleRegisterClick}
                     >
                         Register
                     </Button>
