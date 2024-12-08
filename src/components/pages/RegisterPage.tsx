@@ -1,25 +1,26 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, Link, Box } from "@mui/material";
 import CenteringBox from "../common/CenteringBox";
-import { useNavigate } from "react-router-dom"
+import WelcomeBanner from "../common/WelcomeBanner";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [username, setUsername] = useState("");
     const [passwordMatch, setPasswordMatch] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
         console.log("Registering:", { email, username, password });
-        setPassword("");
         setEmail("");
         setUsername("");
+        setPassword("");
         setConfirmPassword("");
         setPasswordMatch(false);
-        navigate("/");
+        navigate("/"); // Navigate to the main page after successful registration
     };
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,69 +35,78 @@ const RegisterPage = () => {
         setPasswordMatch(password === newConfirmPassword);
     };
 
+    const handleLoginLinkClick = () => {
+        navigate("/login"); // Redirect to login page
+    };
+
     return (
-    <CenteringBox>
-        <Box
-            sx={{
-                maxWidth: 400,
-                margin: "auto",
-                padding: 3,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-                boxShadow: 3,
-                borderRadius: 2,
-            }}
-        >
-            <Typography variant="h4" textAlign="center" gutterBottom>
-                Register
-            </Typography>
+        <CenteringBox>
+            <WelcomeBanner />
+            <Box
+                component="form"
+                sx={{display: 'flex', flexDirection: 'column', placeItems: 'center', gap: '1em', "mt": 5}}
+                noValidate
+                autoComplete="off"
+            >
 
-            <TextField
-                label="Email"
-                type="email"
-                variant="filled"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                fullWidth
-                required
-            />
-            <TextField
-                label="Username"
-                value={username}
-                variant="filled"
-                onChange={(e) => setUsername(e.target.value)}
-                fullWidth
-                required
-            />
-            <TextField
-                label="Password"
-                type="password"
-                variant="filled"
-                value={password}
-                onChange={handlePasswordChange}
-                color={passwordMatch ? "success" : "error"} // Dynamically change color
-                fullWidth
-                required
-                focused
-            />
-            <TextField
-                label="Confirm Password"
-                type="password"
-                value={confirmPassword}
-                variant="filled"
-                onChange={handleConfirmPasswordChange}
-                color={passwordMatch ? "success" : "error"} // Dynamically change color
-                fullWidth
-                required
-                focused
-            />
+                <TextField
+                    label="Email"
+                    type="email"
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <TextField
+                    label="Username"
+                    value={username}
+                    variant="outlined"
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                <TextField
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    color={passwordMatch || password === "" ? "primary" : "error"}
+                    required
+                />
+                <TextField
+                    label="Confirm Password"
+                    type="password"
+                    variant="outlined"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    color={passwordMatch || confirmPassword === "" ? "primary" : "error"}
+                    required
+                />
 
-            <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth disabled={!passwordMatch}>
-                Register
-            </Button>
-        </Box>
-    </CenteringBox>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={!passwordMatch || !email || !username || !password || !confirmPassword}
+                    onClick={handleSubmit}
+                >
+                    Register
+                </Button>
+                <Typography variant="body2" align="center">
+                    Already have an account?{" "}
+                    <Link
+                        onClick={handleLoginLinkClick}
+                        style={{
+                            cursor: "pointer",
+                            textDecoration: "none",
+                            color: "#8B0000", // Matches theme's secondary main color
+                        }}
+                    >
+                        Login here
+                    </Link>
+                </Typography>
+            </Box>
+        </CenteringBox>
     );
 };
 
