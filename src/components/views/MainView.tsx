@@ -16,7 +16,7 @@ const MainView: React.FC = () => {
 
   const views = [
     { id: 1, src: '/cooking_gif_1.gif', title: 'Pasta prawns', user: 'Mike' },
-    { id: 2, src: '/cooking_gif_2.gif', title: 'Stir Fry Veggies', user: 'Anna' },
+    { id: 2, src: '/cooking_gif_2.gif', title: 'Stir Fry Veggies', user: 'Tim' },
   ];
 
   return (
@@ -134,9 +134,9 @@ const MainView: React.FC = () => {
               >
                 <Box display="flex" alignItems="center" gap={1}>
                   <AccountCircleIcon />
-                  <Typography variant="body1" fontWeight="bold">
-                    {view.user}
-                  </Typography>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'white' }}>
+                  {view.user}
+                </Typography>
                 </Box>
                 <Typography variant="h6" fontWeight="bold" mt={1}>
                   {view.title}
