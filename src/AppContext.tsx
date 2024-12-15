@@ -1,5 +1,6 @@
 // src/AppContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { displaySuccessNotification } from './utils/displayNotification';
 
 // Define the type for an ingredient with a unit
 interface Ingredient {
@@ -13,6 +14,7 @@ interface Recipe {
 	id: number;
 	name: string;
 	ingredients: Ingredient[];
+	image: string;
 	steps: string[]; // List of steps for the recipe
 }
 
@@ -76,6 +78,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 				{ name: 'Garlic', amount: 2, unit: 'cloves' },
 				{ name: 'Onion', amount: 1, unit: 'pieces' },
 			],
+			image: "/spaghetti.jpeg",
 			steps: [
 				'Boil the spaghetti in salted water for 8-10 minutes.',
 				'Sauté chopped onions and garlic in a pan.',
@@ -93,6 +96,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 				{ name: 'Coconut Milk', amount: 200, unit: 'ml' },
 				{ name: 'Onion', amount: 1, unit: 'pieces' },
 			],
+			image: "/curry.jpg",
 			steps: [
 				'Sauté chopped onions until translucent.',
 				'Add chicken pieces and brown them.',
@@ -124,6 +128,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 				return list;
 			});
 		});
+		displaySuccessNotification("Item added to shopping list!");
 	};
 
 	const updateFridge = (ingredient: Ingredient) => {
