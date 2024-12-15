@@ -9,6 +9,7 @@ import MainPage from "./components/pages/MainPage";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AppProvider } from './AppContext';
 
 const theme = createTheme({
   palette: {
@@ -42,19 +43,21 @@ const theme = createTheme({
 
 function App() {
   return (
+    <AppProvider>
       <ThemeProvider theme={theme}>
-            <ToastContainer />
-          <BrowserRouter>
-              <Routes>
-                  <Route path="/" element={<MainPage />}/>
-                  <Route path="/login" element={<LoginPage />} /> {/* Login page route */}
-                  <Route path="/register" element={<RegisterPage />} /> {/* Register page route */}
-                  <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password Route */}
-              </Routes>
-          </BrowserRouter>
-
+        <ToastContainer />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainPage />}/>
+            <Route path="/login" element={<LoginPage />} /> {/* Login page route */}
+            <Route path="/register" element={<RegisterPage />} /> {/* Register page route */}
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password Route */}
+          </Routes>
+        </BrowserRouter>
         <CssBaseline />
       </ThemeProvider>
+    </AppProvider>
+
   );
 }
 
