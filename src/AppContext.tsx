@@ -14,6 +14,7 @@ interface Recipe {
 	name: string;
 	ingredients: Ingredient[];
 	steps: string[]; // List of steps for the recipe
+	photo: string;
 }
 
 // Define the type for a shopping list
@@ -83,6 +84,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 				'Add tomato sauce and simmer for 10 minutes.',
 				'Serve the sauce over the cooked spaghetti.',
 			],
+			photo: 'https://cdn.stoneline.de/media/c5/63/4f/1727429313/spaghetti-bolognese.jpeg',
 		},
 		{
 			id: 2,
@@ -100,6 +102,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 				'Pour in the coconut milk and simmer for 20 minutes.',
 				'Serve with rice or naan.',
 			],
+			photo: 'https://assets.bonappetit.com/photos/61a7d632234db3ec67e4fdfa/1:1/w_2000,h_2000,c_limit/20211122%20Japanese%20Curry%20LEDE.jpg',
 		},
 	]);
 
