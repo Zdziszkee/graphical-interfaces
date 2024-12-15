@@ -36,8 +36,8 @@ const theme = createTheme({
     fontFamily: 'Roboto, Arial, sans-serif', // Default font
     h1: { color: '#333333' }, // Ensure headers use the text color
     h2: { color: '#333333' },
-    body1: { color: '#333333' },
-    body2: { color: '#555555' }, // For secondary text
+    // body1: { color: '#333333' },
+    // body2: { color: '#555555' }, // For secondary text
   },
 });
 

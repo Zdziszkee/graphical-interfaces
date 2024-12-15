@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { List, ListItem, ListItemText, ListItemButton, Typography, Modal, Box, Button, IconButton, Select, MenuItem, FormControl, InputLabel, Divider } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemButton,
+  Typography,
+  Modal,
+  Box,
+  Button,
+  IconButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Divider,
+  Icon
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppContext } from '../../AppContext';
 import RecipeListItem from './recipe/RecipeListItem';
 import CenteringBox from '../common/CenteringBox';
 import { ToastContainer } from 'react-toastify';
 import { displaySuccessNotification } from '../../utils/displayNotification';
+import { useTheme } from '@mui/material/styles';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 const RecipesView: React.FC = () => {
-    const { recipes, addToShoppingList, shoppingLists, selectShoppingList, selectedShoppingList } = useAppContext();
+    const { recipes, addToShoppingList, shoppingLists, selectShoppingList, selectedShoppingList, fridge } = useAppContext();
     const [selectedRecipe, setSelectedRecipe] = useState<typeof recipes[0] | null>(null);
     const [open, setOpen] = useState(false);
+    const theme = useTheme();
 
     const handleOpen = (recipe: typeof recipes[0]) => {
         setSelectedRecipe(recipe);
@@ -20,6 +39,11 @@ const RecipesView: React.FC = () => {
     const handleClose = () => {
         setOpen(false);
         setSelectedRecipe(null);
+    };
+
+    const isIngredientInFridge = (ingredientName: string, requiredAmount: number) => {
+      const ingredientInFridge = fridge.find(item => item.name === ingredientName);
+      return ingredientInFridge ? ingredientInFridge.amount >= requiredAmount : false;
     };
 
     return (
@@ -82,24 +106,32 @@ const RecipesView: React.FC = () => {
                       </FormControl>
                         <Typography variant="h6" sx={{mt: 2}}>Ingredients:</Typography>
                         <List >
-                            {selectedRecipe.ingredients.map((ingredient) => (
-                              <>
-                                <ListItem key={ingredient.name}>
-                                  <ListItemText primary={ingredient.name} secondary={`${ingredient.amount} ${ingredient.unit}`} />
-                                <Button onClick={() => addToShoppingList(ingredient, selectedShoppingList)}>
-                                  Add to Shopping List
-                                </Button>
+                            {selectedRecipe.ingredients.map((ingredient) => {
+                              const isInFridge = isIngredientInFridge(ingredient.name, ingredient.amount);
+                              console.log(isInFridge)
+                              return (<>
+                                <ListItem style={{color: isInFridge ? theme.palette.success.main : theme.palette.error.main, }} key={ingredient.name}>
+                                  <ListItemText
+                                     primary={ingredient.name} secondary={`${ingredient.amount} ${ingredient.unit}`} />
+                                <IconButton onClick={() => addToShoppingList(ingredient, selectedShoppingList)}>
+                                  <ShoppingCartOutlinedIcon />
+                                </IconButton>
                               </ListItem>
                                 <Divider variant="middle" component="li" />
-                              </>
-                            ))}
+                              </>)
+                            })}
                         </List>
                         <Typography variant="h6" mt={2}>Steps:</Typography>
-                        <ol>
+                        <List>
                             {selectedRecipe.steps.map((step, index) => (
-                              <li key={index}>{step}</li>
-                            ))}
-                        </ol>
+                              <>
+                                <ListItem key={index}>
+                                  <ListItemText>{index + 1}. {step}</ListItemText>
+                                </ListItem>
+                                <Divider variant="middle" component="li" />
+                              </>
+                              ))}
+                        </List>
                     </Box>
                   )}
               </Box>
