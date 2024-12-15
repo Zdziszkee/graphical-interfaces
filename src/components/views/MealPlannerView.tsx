@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Typography,
-  Grid,
   MenuItem,
   Select,
   FormControl,
@@ -86,42 +85,42 @@ const MealPlannerView: React.FC = () => {
       {/* Calendar */}
       <Box>
         {/* Days of the week */}
-        <Grid container spacing={1} textAlign="center">
+        <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1} textAlign="center" mb={2}>
           {weekDays.map((day) => (
-            <Grid key={day} item xs={12 / 7}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                {day}
-              </Typography>
-            </Grid>
+            <Box key={day} sx={{ fontWeight: 'bold' }}>
+              {day}
+            </Box>
           ))}
-        </Grid>
+        </Box>
 
         {/* Calendar Days */}
-        <Grid container spacing={1} textAlign="center">
+        <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1}>
           {/* Add blank cells for days before the 1st */}
           {Array.from({ length: offset }).map((_, index) => (
-            <Grid key={`empty-${index}`} item xs={12 / 7}></Grid>
+            <Box key={`empty-${index}`} sx={{ height: '50px' }}></Box>
           ))}
 
           {/* Display all days of the month */}
           {daysInMonth.map((day) => (
-            <Grid key={day.toString()} item xs={12 / 7}>
-              <Box
-                sx={{
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  padding: '8px',
-                  backgroundColor: '#f9f9f9',
-                  '&:hover': { backgroundColor: '#e0f7fa' },
-                }}
-              >
-                <Typography variant="body2" fontWeight="bold">
-                  {format(day, 'd')}
-                </Typography>
-              </Box>
-            </Grid>
+            <Box
+              key={day.toString()}
+              sx={{
+                height: '50px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                backgroundColor: '#f9f9f9',
+                '&:hover': { backgroundColor: '#e0f7fa' },
+              }}
+            >
+              <Typography variant="body2" fontWeight="bold">
+                {format(day, 'd')}
+              </Typography>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </Box>
     </Box>
   );
