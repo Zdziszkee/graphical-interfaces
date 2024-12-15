@@ -6,29 +6,50 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'; // Updated Icon Import
-import CenteringBox from "../common/CenteringBox";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CenteringBox from '../common/CenteringBox';
+import { useAppContext } from '../../AppContext';
 
 const FridgeView: React.FC = () => {
-  const [items, setItems] = useState<{ id: number; name: string; amount: number }[]>([]);
-  const [newItem, setNewItem] = useState<string>('');
-  const [newAmount, setNewAmount] = useState<number>(1);
+  const { fridge, setFridge } = useAppContext(); // Access fridge and setFridge from global context
+  const [newItem, setNewItem] = useState<string>(''); // Name input for new item
+  const [newAmount, setNewAmount] = useState<number>(1); // Amount input for new item
 
-  const increment = (id: number) => {
-    setItems(items.map((item) => (item.id === id ? { ...item, amount: item.amount + 1 } : item)));
+  // Increment an item's amount
+  const increment = (name: string) => {
+    setFridge((prevFridge) =>
+      prevFridge.map((item) =>
+        item.name === name ? { ...item, amount: item.amount + 1 } : item
+      )
+    );
   };
 
-  const decrement = (id: number) => {
-    setItems(items.map((item) => (item.id === id && item.amount > 1 ? { ...item, amount: item.amount - 1 } : item)));
+  // Decrement an item's amount
+  const decrement = (name: string) => {
+    setFridge((prevFridge) =>
+      prevFridge.map((item) =>
+        item.name === name && item.amount > 1 ? { ...item, amount: item.amount - 1 } : item
+      )
+    );
   };
 
-  const deleteItem = (id: number) => {
-    setItems(items.filter((item) => item.id !== id));
+  // Delete an item from the fridge
+  const deleteItem = (name: string) => {
+    setFridge((prevFridge) => prevFridge.filter((item) => item.name !== name));
   };
 
+  // Add a new item to the fridge
   const addItem = () => {
     if (newItem.trim() === '') return;
-    setItems([...items, { id: Date.now(), name: newItem, amount: newAmount > 0 ? newAmount : 1 }]);
+    setFridge((prevFridge) => {
+      const existingItem = prevFridge.find((item) => item.name === newItem);
+      if (existingItem) {
+        return prevFridge.map((item) =>
+          item.name === newItem ? { ...item, amount: item.amount + newAmount } : item
+        );
+      }
+      return [...prevFridge, { name: newItem, amount: newAmount, unit: '' }];
+    });
     setNewItem('');
     setNewAmount(1);
   };
@@ -39,25 +60,33 @@ const FridgeView: React.FC = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Fridge
         </Typography>
-        {items.length > 0 ? (
-          items.map((item) => (
+
+        {/* Fridge Items List */}
+        {fridge.length > 0 ? (
+          fridge.map((item) => (
             <Box
-              key={item.id}
+              key={item.name}
               display="flex"
               alignItems="center"
               justifyContent="space-between"
               mb={1}
             >
-              <Typography>{item.name} ({item.amount})</Typography>
+              <Typography>
+                {item.name} ({item.amount} {item.unit || ''})
+              </Typography>
               <Box>
-                <IconButton onClick={() => increment(item.id)} size="small" color="primary">
-                  <AddIcon sx={{ color: 'black' }} />
+                <IconButton onClick={() => increment(item.name)} size="small" color="primary">
+                  <AddIcon />
                 </IconButton>
-                <IconButton onClick={() => decrement(item.id)} size="small" color="secondary">
+                <IconButton onClick={() => decrement(item.name)} size="small" color="secondary">
                   <RemoveIcon />
                 </IconButton>
-                <IconButton onClick={() => deleteItem(item.id)} size="small" color="error">
-                  <DeleteOutlineIcon /> {/* Updated Icon */}
+                <IconButton
+                  onClick={() => deleteItem(item.name)}
+                  size="small"
+                  color="error"
+                >
+                  <DeleteOutlineIcon />
                 </IconButton>
               </Box>
             </Box>
@@ -68,7 +97,7 @@ const FridgeView: React.FC = () => {
           </Typography>
         )}
 
-        {/* Input for new items */}
+        {/* Add New Item */}
         <Box display="flex" flexDirection="column" mt={2}>
           <TextField
             label="New Item"
