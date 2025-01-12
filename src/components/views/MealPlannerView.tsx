@@ -6,7 +6,6 @@ import {
   Select,
   FormControl,
   InputLabel,
-  SelectChangeEvent,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,12 +17,11 @@ import {
 } from '@mui/material';
 import { format, startOfMonth, endOfMonth, getDay } from 'date-fns';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import { useAppContext } from '../../AppContext';
 
 const MealPlannerView: React.FC = () => {
   const { recipes } = useAppContext();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // Current month
+  const [selectedDate] = useState<Date>(new Date()); // Current month
   const [meals, setMeals] = useState<{ [date: string]: string[] }>({});
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedMeal, setSelectedMeal] = useState<string>('');
