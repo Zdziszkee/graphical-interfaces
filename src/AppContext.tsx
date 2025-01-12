@@ -3,10 +3,11 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { displaySuccessNotification } from './utils/displayNotification';
 
 // Define the type for an ingredient with a unit
-interface Ingredient {
+export interface Ingredient {
 	name: string;
 	amount: number;
 	unit: string; // e.g., 'grams', 'ml', 'pieces'
+	checked?: boolean; // Optional property to track if the item is checked
 }
 
 // Define the type for a recipe with ingredients and steps
