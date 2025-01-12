@@ -5,8 +5,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { AccountCircle } from "@mui/icons-material";
 
 export default function NavBar(
@@ -21,24 +19,14 @@ export default function NavBar(
         icons: React.ReactNode[]
     }
 ) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const navigate = useNavigate(); // Initialize the navigate function
-
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleIconClick = (index: number) => {
         updateCurrentIdx(index);
     };
 
     const handleProfileClick = () => {
-        setAnchorEl(null); // Close the menu
-        navigate('/profile'); // Navigate to the Profile Page
+        navigate('/profile'); // Navigate directly to the Profile Page
     };
 
     return (
@@ -71,35 +59,14 @@ export default function NavBar(
                         ))}
                     </Box>
 
-                    <div>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleProfileClick}>Profile</MenuItem> {/* Add click handler */}
-                        </Menu>
-                    </div>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        onClick={handleProfileClick} // Navigate directly when clicked
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
                 </Toolbar>
             </AppBar>
         </Box>
