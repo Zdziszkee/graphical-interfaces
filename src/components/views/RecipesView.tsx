@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  Typography,
-  Modal,
-  Box,
-  Button,
+    List,
+    ListItem,
+    ListItemText,
+    Card,
+    CardActionArea,
+    CardMedia,
+    CardContent,
+    Grid2,
+    Typography,
+    Modal,
+    Box,
+} from '@mui/material';
+import {
   IconButton,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
   Divider,
-  Icon
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppContext } from '../../AppContext';
-import RecipeListItem from './recipe/RecipeListItem';
-import CenteringBox from '../common/CenteringBox';
-import { ToastContainer } from 'react-toastify';
-import { displaySuccessNotification } from '../../utils/displayNotification';
 import { useTheme } from '@mui/material/styles';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
@@ -47,16 +47,40 @@ const RecipesView: React.FC = () => {
     };
 
     return (
-      <>
-          <ToastContainer />
-          <Typography variant="h4" gutterBottom>
-              Recipes
-          </Typography>
-          <List>
-              {recipes.map((recipe) => (
-                <RecipeListItem key={recipe.id} onClick={() => handleOpen(recipe)} name={recipe.name} image={recipe.image} />
-              ))}
-          </List>
+        <div>
+            <Typography variant="h4" gutterBottom>
+                Recipes
+            </Typography>
+            <Grid2 container spacing={2}>
+                {recipes.map((recipe) => (
+                    <Box
+                        key={recipe.id}
+                        sx={{
+                            gridColumn: { xs: 'span 12', sm: 'span 6', md: 'span 4', lg: 'span 3' },
+                        }}
+                    >
+                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                            <CardActionArea onClick={() => handleOpen(recipe)} sx={{ flexGrow: 1 }}>
+                                <CardMedia
+                                    component="img"
+                                    sx={{
+                                        height: 140,
+                                        objectFit: 'cover',
+                                    }}
+                                    image={recipe.photo}
+                                    alt={recipe.name}
+                                />
+                                <CardContent>
+                                    <Typography variant="h6" component="div">
+                                        {recipe.name}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Box>
+                ))}
+            </Grid2>
+
 
           <Modal open={open} onClose={handleClose}>
               <Box sx={{
@@ -105,7 +129,7 @@ const RecipesView: React.FC = () => {
                         </Select>
                       </FormControl>
                         <Typography variant="h6" sx={{mt: 2}}>Ingredients:</Typography>
-                        <List >
+                        <List>
                             {selectedRecipe.ingredients.map((ingredient) => {
                               const isInFridge = isIngredientInFridge(ingredient.name, ingredient.amount);
                               console.log(isInFridge)
@@ -136,7 +160,7 @@ const RecipesView: React.FC = () => {
                   )}
               </Box>
           </Modal>
-      </>
+      </div>
     );
 };
 
