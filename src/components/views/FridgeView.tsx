@@ -13,6 +13,8 @@ import CenteringBox from '../common/CenteringBox';
 import { useAppContext } from '../../AppContext';
 import { displayErrorNotification } from '../../utils/displayNotification';
 import { ToastContainer } from 'react-toastify';
+import {Grid, Card, CardContent, CardActions } from '@mui/material';
+
 
 const FridgeView: React.FC = () => {
   const { fridge, setFridge } = useAppContext();
@@ -20,7 +22,6 @@ const FridgeView: React.FC = () => {
   const [newAmount, setNewAmount] = useState<number>(1);
   const [newUnit, setNewUnit] = useState<string>('');
   const [units, setUnits] = useState<string[]>(['kg', 'g', 'l', 'ml', 'pieces']);
-  const [customUnit, setCustomUnit] = useState<string>('');
 
   const increment = (name: string) => {
     setFridge((prevFridge) =>
@@ -69,56 +70,91 @@ const FridgeView: React.FC = () => {
     setNewUnit('');
   };
 
-  const addCustomUnit = () => {
-    if (customUnit.trim() && !units.includes(customUnit)) {
-      setUnits((prevUnits) => [...prevUnits, customUnit]);
-      setCustomUnit('');
-    }
-  };
-
   return (
       <CenteringBox>
         <ToastContainer />
 
-        <Box width="100%" maxWidth="400px" p={2}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Fridge
-        </Typography>
-
-        {fridge.length > 0 ? (
-          fridge.map((item) => (
-            <Box
-              key={item.name}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              mb={1}
-            >
-              <Typography>
-                {item.name} ({item.amount} {item.unit || ''})
-              </Typography>
-              <Box>
-                <IconButton onClick={() => increment(item.name)} size="small" color="primary">
-                  <AddIcon />
-                </IconButton>
-                <IconButton onClick={() => decrement(item.name)} size="small" color="secondary">
-                  <RemoveIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => deleteItem(item.name)}
-                  size="small"
-                  color="error"
-                >
-                  <DeleteOutlineIcon />
-                </IconButton>
-              </Box>
-            </Box>
-          ))
-        ) : (
-          <Typography align="center" color="textSecondary">
-            No items in the fridge. Add something!
+        <Box
+          sx={{
+            width: '100%',
+            maxWidth: '600px',
+            padding: 2,
+            bgcolor: '#f0f8ff', // Light fridge-like background
+            borderRadius: 2,
+            border: '2px solid #e0e0e0',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <Typography variant="h4" align="center" gutterBottom>
+            Your Fridge
           </Typography>
-        )}
+
+          {/* Fridge Items */}
+          <Box sx={{
+            mt: 2,
+            mb: 2,
+            maxHeight: '400px', // Limit height
+            overflowY: 'auto', // Enable vertical scrolling
+            padding: 1,
+            bgcolor: '#ffffff',
+            borderRadius: 2,
+            border: '1px solid #ddd',
+          }}>
+            <Grid container spacing={2}>
+              {fridge.length > 0 ? (
+                fridge.map((item) => (
+                  <Grid item xs={12} sm={6} md={4} key={item.name}>
+                    <Card
+                      sx={{
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        borderRadius: 2,
+                        border: '1px solid #ddd',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                        bgcolor: '#fff',
+                      }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6">{item.name}</Typography>
+                        <Typography color="textSecondary">
+                          {item.amount} {item.unit || ''}
+                        </Typography>
+                      </CardContent>
+                      <CardActions sx={{ justifyContent: 'space-between' }}>
+                        <IconButton
+                          onClick={() => increment(item.name)}
+                          color="primary"
+                          size="small"
+                        >
+                          <AddIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => decrement(item.name)}
+                          color="secondary"
+                          size="small"
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => deleteItem(item.name)}
+                          color="error"
+                          size="small"
+                        >
+                          <DeleteOutlineIcon />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <Typography align="center" color="textSecondary">
+                  No items in the fridge. Add something!
+                </Typography>
+              )}
+            </Grid>
+          </Box>
 
         <Box display="flex" flexDirection="column" mt={2}>
           <TextField
@@ -156,26 +192,6 @@ const FridgeView: React.FC = () => {
             ))}
             <MenuItem value="custom">Add Custom Unit</MenuItem>
           </Select>
-
-          {newUnit === 'custom' && (
-            <Box mt={1} display="flex" flexDirection="column">
-              <TextField
-                label="Custom Unit"
-                variant="outlined"
-                size="small"
-                value={customUnit}
-                onChange={(e) => setCustomUnit(e.target.value)}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={addCustomUnit}
-                style={{ marginTop: '10px' }}
-              >
-                Add Custom Unit
-              </Button>
-            </Box>
-          )}
 
           <Button
             variant="contained"
