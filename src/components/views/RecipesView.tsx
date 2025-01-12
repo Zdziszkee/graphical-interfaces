@@ -24,6 +24,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAppContext } from '../../AppContext';
 import { useTheme } from '@mui/material/styles';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import MarginContainer from '../common/MarginContainer';
 
 const RecipesView: React.FC = () => {
     const { recipes, addToShoppingList, shoppingLists, selectShoppingList, selectedShoppingList, fridge } = useAppContext();
@@ -46,20 +47,15 @@ const RecipesView: React.FC = () => {
       return ingredientInFridge ? ingredientInFridge.amount >= requiredAmount : false;
     };
 
+   const multipliedRecipes = Array.from({ length: 30 }, () => recipes).flat();
+
     return (
-        <div>
-            <Typography variant="h4" gutterBottom>
-                Recipes
-            </Typography>
+        <Box mt={3}>
+
+          <MarginContainer>
             <Grid2 container spacing={2}>
-                {recipes.map((recipe) => (
-                    <Box
-                        key={recipe.id}
-                        sx={{
-                            gridColumn: { xs: 'span 12', sm: 'span 6', md: 'span 4', lg: 'span 3' },
-                        }}
-                    >
-                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                {multipliedRecipes.map((recipe) => (
+                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                             <CardActionArea onClick={() => handleOpen(recipe)} sx={{ flexGrow: 1 }}>
                                 <CardMedia
                                     component="img"
@@ -77,9 +73,10 @@ const RecipesView: React.FC = () => {
                                 </CardContent>
                             </CardActionArea>
                         </Card>
-                    </Box>
                 ))}
             </Grid2>
+          </MarginContainer>
+
 
 
           <Modal open={open} onClose={handleClose}>
@@ -160,7 +157,7 @@ const RecipesView: React.FC = () => {
                   )}
               </Box>
           </Modal>
-      </div>
+      </Box>
     );
 };
 
