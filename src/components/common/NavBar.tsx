@@ -98,7 +98,6 @@ export default function NavBar(
                             onClose={handleClose}
                         >
                             <MenuItem onClick={handleProfileClick}>Profile</MenuItem> {/* Add click handler */}
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>
