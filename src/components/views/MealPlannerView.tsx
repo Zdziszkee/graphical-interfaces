@@ -21,15 +21,17 @@ import { useAppContext } from '../../AppContext';
 
 const MealPlannerView: React.FC = () => {
   const { recipes } = useAppContext();
-  const [selectedDate] = useState<Date>(new Date()); // Current month
+  const currentDate = new Date();
+  const [selectedYear, setSelectedYear] = useState<number>(currentDate.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState<number>(currentDate.getMonth());
   const [meals, setMeals] = useState<{ [date: string]: string[] }>({});
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedMeal, setSelectedMeal] = useState<string>('');
 
-  // Function to generate days in the current month
-  const generateDaysInMonth = (date: Date): Date[] => {
-    const start = startOfMonth(date);
-    const end = endOfMonth(date);
+  // Function to generate days in the selected month
+  const generateDaysInMonth = (year: number, month: number): Date[] => {
+    const start = startOfMonth(new Date(year, month));
+    const end = endOfMonth(new Date(year, month));
     const days: Date[] = [];
     for (
       let current = new Date(start);
@@ -41,7 +43,7 @@ const MealPlannerView: React.FC = () => {
     return days;
   };
 
-  const daysInMonth: Date[] = generateDaysInMonth(selectedDate);
+  const daysInMonth: Date[] = generateDaysInMonth(selectedYear, selectedMonth);
 
   const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -50,7 +52,7 @@ const MealPlannerView: React.FC = () => {
     return dayIndex === 0 ? 6 : dayIndex - 1;
   };
 
-  const offset = getMondayBasedOffset(startOfMonth(selectedDate));
+  const offset = getMondayBasedOffset(new Date(selectedYear, selectedMonth, 1));
 
   const handleDayClick = (day: Date) => {
     setSelectedDay(day);
@@ -85,6 +87,67 @@ const MealPlannerView: React.FC = () => {
       <Typography variant="h4" gutterBottom textAlign="center">
         Meal Planner
       </Typography>
+
+      {/* Month and Year Selector */}
+      <Box display="flex" justifyContent="center" gap={2} mb={2}>
+  <Box display="flex" flexDirection="column" alignItems="center">
+    <FormControl
+      sx={{
+        minWidth: 120,
+        border: '1px solid black', // Black border
+        borderRadius: '4px', // Optional rounded corners
+        '& .MuiOutlinedInput-notchedOutline': { border: 'none' }, // Remove default outline
+      }}
+    >
+      <Select
+        value={selectedMonth}
+        onChange={(e) => setSelectedMonth(Number(e.target.value))}
+        sx={{
+          textAlign: 'center',
+        }}
+      >
+        {Array.from({ length: 12 }, (_, i) => i).map((month) => (
+          <MenuItem key={month} value={month}>
+            {format(new Date(selectedYear, month), 'MMMM')}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+    <Typography variant="body2" sx={{ mt: 1, textAlign: 'center', color: 'black' }}>
+      Month
+    </Typography>
+  </Box>
+
+  <Box display="flex" flexDirection="column" alignItems="center">
+    <FormControl
+      sx={{
+        minWidth: 120,
+        border: '1px solid black', // Black border
+        borderRadius: '4px', // Optional rounded corners
+        '& .MuiOutlinedInput-notchedOutline': { border: 'none' }, // Remove default outline
+      }}
+    >
+      <Select
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(Number(e.target.value))}
+        sx={{
+          textAlign: 'center',
+        }}
+      >
+        {Array.from({ length: 5 }, (_, i) => currentDate.getFullYear() - 2 + i).map((year) => (
+          <MenuItem key={year} value={year}>
+            {year}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+    <Typography variant="body2" sx={{ mt: 1, textAlign: 'center', color: 'black' }}>
+      Year
+    </Typography>
+  </Box>
+</Box>
+
+
 
       {/* Calendar */}
       <Box>
@@ -247,7 +310,7 @@ const MealPlannerView: React.FC = () => {
             </Button>
           </Box>
         </DialogContent>
-        <DialogActions>
+                <DialogActions>
           <Button onClick={() => setSelectedDay(null)}>Close</Button>
         </DialogActions>
       </Dialog>
@@ -256,3 +319,4 @@ const MealPlannerView: React.FC = () => {
 };
 
 export default MealPlannerView;
+
