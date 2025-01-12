@@ -7,6 +7,7 @@ import RegisterPage from "./components/pages/RegisterPage";
 import {Route, BrowserRouter, Routes} from "react-router-dom";
 import MainPage from "./components/pages/MainPage";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
+import ProfilePage from "./components/pages/ProfilePage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppProvider } from './AppContext';
@@ -41,6 +42,7 @@ const theme = createTheme({
   },
 });
 
+
 function App() {
   return (
     <AppProvider>
@@ -48,16 +50,16 @@ function App() {
         <ToastContainer />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<MainPage />}/>
-            <Route path="/login" element={<LoginPage />} /> {/* Login page route */}
-            <Route path="/register" element={<RegisterPage />} /> {/* Register page route */}
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password Route */}
+            <Route path="/" element={<MainPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/profile" element={<ProfilePage />} /> {/* Add this route */}
           </Routes>
         </BrowserRouter>
         <CssBaseline />
       </ThemeProvider>
     </AppProvider>
-
   );
 }
 

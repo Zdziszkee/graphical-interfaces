@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {SetStateAction} from 'react';
+import { SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {AccountCircle} from "@mui/icons-material";
-
+import { AccountCircle } from "@mui/icons-material";
 
 export default function NavBar(
     {
@@ -22,6 +22,7 @@ export default function NavBar(
     }
 ) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -35,8 +36,13 @@ export default function NavBar(
         updateCurrentIdx(index);
     };
 
+    const handleProfileClick = () => {
+        setAnchorEl(null); // Close the menu
+        navigate('/profile'); // Navigate to the Profile Page
+    };
+
     return (
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <Box
@@ -51,11 +57,11 @@ export default function NavBar(
                                 key={index}
                                 size="large"
                                 edge="start"
-                                color={index === currentIdx ? "secondary" : "inherit"} // Zmieniono kolor
+                                color={index === currentIdx ? "secondary" : "inherit"}
                                 aria-label="menu"
                                 sx={{
                                     mr: 2,
-                                    backgroundColor: index === currentIdx ? 'rgba(255, 255, 255, 0.2)' : 'transparent', // Dodano tle
+                                    backgroundColor: index === currentIdx ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
                                     borderRadius: 1,
                                 }}
                                 onClick={() => handleIconClick(index)}
@@ -74,7 +80,7 @@ export default function NavBar(
                             onClick={handleMenu}
                             color="inherit"
                         >
-                            <AccountCircle/>
+                            <AccountCircle />
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -91,7 +97,7 @@ export default function NavBar(
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleProfileClick}>Profile</MenuItem> {/* Add click handler */}
                             <MenuItem onClick={handleClose}>My account</MenuItem>
                         </Menu>
                     </div>
