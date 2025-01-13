@@ -92,29 +92,30 @@ const RecipesView: React.FC = () => {
 
         {filteredRecipes.length > 0 ? (
           <Grid container spacing={2}>
-            {filteredRecipes.map((recipe, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={`${recipe.id}-${index}`}>
-                <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1}}>
-                  <CardActionArea onClick={() => handleOpen(recipe)}>
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        height: 140,
-                        objectFit: 'cover',
-                      }}
-                      image={recipe.photo}
-                      alt={recipe.name}
-                    />
-                    <CardContent>
-                      <Typography variant="h6" component="div">
-                        {recipe.name}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+  {filteredRecipes.map((recipe, index) => (
+    <Grid item xs={12} sm={6} md={4} lg={2} key={`${recipe.id}-${index}`}>
+      <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', flexGrow: 1 }}>
+        <CardActionArea onClick={() => handleOpen(recipe)}>
+          <CardMedia
+            component="img"
+            sx={{
+              height: 140,
+              objectFit: 'cover',
+            }}
+            image={recipe.photo}
+            alt={recipe.name}
+          />
+          <CardContent>
+            <Typography variant="h6" component="div">
+              {recipe.name}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+
         ) : (
           <Typography variant="h6" sx={{ mt: 3, textAlign: 'center' }}>
             No recipes found
