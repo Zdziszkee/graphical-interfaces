@@ -71,7 +71,7 @@ export default function ShoppingListView() {
                     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
                 }}
             >
-                <Typography variant="h4" align="center" gutterBottom sx={{ fontFamily: 'Handwriting', color: '#5d4037' }}>
+                <Typography variant="h4" align="center" gutterBottom sx={{ color: '#5d4037' }}>
                     Shopping List
                 </Typography>
 

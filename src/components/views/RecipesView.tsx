@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import {
-    List,
-    ListItem,
-    ListItemText,
-    Card,
-    CardActionArea,
-    CardMedia,
-    CardContent,
-    Grid2,
-    Typography,
-    Modal,
-    Box,
-} from '@mui/material';
-import {
+  List,
+  ListItem,
+  ListItemText,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  Modal,
+  Box,
+  TextField,
+  Grid2,
   IconButton,
   Select,
   MenuItem,
@@ -25,59 +24,95 @@ import { useAppContext } from '../../AppContext';
 import { useTheme } from '@mui/material/styles';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import MarginContainer from '../common/MarginContainer';
+import { ToastContainer } from 'react-toastify';
+import { displaySuccessNotification } from '../../utils/displayNotification';
 
 const RecipesView: React.FC = () => {
-    const { recipes, addToShoppingList, shoppingLists, selectShoppingList, selectedShoppingList, fridge } = useAppContext();
-    const [selectedRecipe, setSelectedRecipe] = useState<typeof recipes[0] | null>(null);
-    const [open, setOpen] = useState(false);
-    const theme = useTheme();
+  const { recipes, addToShoppingList, shoppingLists, selectShoppingList, selectedShoppingList, fridge } = useAppContext();
+  const [selectedRecipe, setSelectedRecipe] = useState<typeof recipes[0] | null>(null);
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const theme = useTheme();
 
-    const handleOpen = (recipe: typeof recipes[0]) => {
-        setSelectedRecipe(recipe);
-        setOpen(true);
-    };
+  const handleOpen = (recipe: typeof recipes[0]) => {
+    setSelectedRecipe(recipe);
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-        setSelectedRecipe(null);
-    };
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedRecipe(null);
+  };
 
-    const isIngredientInFridge = (ingredientName: string, requiredAmount: number) => {
-      const ingredientInFridge = fridge.find(item => item.name === ingredientName);
-      return ingredientInFridge ? ingredientInFridge.amount >= requiredAmount : false;
-    };
+  const isIngredientInFridge = (ingredientName: string, requiredAmount: number) => {
+    const ingredientInFridge = fridge.find(item => item.name === ingredientName);
+    return ingredientInFridge ? ingredientInFridge.amount >= requiredAmount : false;
+  };
 
-   const multipliedRecipes = Array.from({ length: 30 }, () => recipes).flat();
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
 
-    return (
-        <Box mt={3}>
+  const multipliedRecipes = Array.from({ length: 30 }, () => recipes).flat();
 
-          <MarginContainer>
-            <Grid2 container spacing={2}>
-                {multipliedRecipes.map((recipe) => (
-                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                            <CardActionArea onClick={() => handleOpen(recipe)} sx={{ flexGrow: 1 }}>
-                                <CardMedia
-                                    component="img"
-                                    sx={{
-                                        height: 140,
-                                        objectFit: 'cover',
-                                    }}
-                                    image={recipe.photo}
-                                    alt={recipe.name}
-                                />
-                                <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        {recipe.name}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                ))}
-            </Grid2>
-          </MarginContainer>
+  // Filter recipes by search query
+  const filteredRecipes = multipliedRecipes.filter(recipe =>
+    recipe.name.toLowerCase().includes(searchQuery)
+  );
 
+  return (
+    <Box mt={3}>
+      <ToastContainer />
+      <MarginContainer>
+        <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center', mb: 3 }}>
+          <TextField
+            label="Search Recipes"
+            variant="outlined"
+            fullWidth
+            value={searchQuery}
+            onChange={handleSearchChange}
+            sx={{ flexGrow: 1 }}
+          />
+          {searchQuery && (
+            <IconButton
+              onClick={() => setSearchQuery('')}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'gray',
+              }}
+              aria-label="Clear Search"
+            >
+              <CloseIcon />
+            </IconButton>
+          )}
+        </Box>
 
+        <Grid2 container spacing={2}>
+          {filteredRecipes.map((recipe) => (
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+              <CardActionArea onClick={() => handleOpen(recipe)} sx={{ flexGrow: 1 }}>
+                <CardMedia
+                  component="img"
+                  sx={{
+                    height: 140,
+                    objectFit: 'cover',
+                  }}
+                  image={recipe.photo}
+                  alt={recipe.name}
+                />
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    {recipe.name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
+        </Grid2>
+      </MarginContainer>
 
           <Modal open={open} onClose={handleClose}>
               <Box sx={{
