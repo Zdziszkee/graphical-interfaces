@@ -12,7 +12,7 @@ const CenteringBox = ({ children }: { children: React.ReactNode }) => {
             alignItems="center"
             flexDirection="column"
             flexWrap="nowrap"
-            height={`calc(100vh - ${navigationHeightInPx + loadingBarHeightInPx}px)`}
+            height={`calc(100vh - ${navigationHeightInPx}px)`}
         >
             {children}
         </Box>

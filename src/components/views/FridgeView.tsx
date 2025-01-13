@@ -79,7 +79,8 @@ const FridgeView: React.FC = () => {
             width: '100%',
             maxWidth: '600px',
             padding: 2,
-            bgcolor: '#f0f8ff', // Light fridge-like background
+            bgcolor: '#f0f8ff',
+            height: '100%',
             borderRadius: 2,
             border: '2px solid #e0e0e0',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
@@ -89,12 +90,11 @@ const FridgeView: React.FC = () => {
             Your Fridge
           </Typography>
 
-          {/* Fridge Items */}
           <Box sx={{
             mt: 2,
             mb: 2,
-            maxHeight: '400px', // Limit height
-            overflowY: 'auto', // Enable vertical scrolling
+            maxHeight: '400px',
+            overflowY: 'auto',
             padding: 1,
             bgcolor: '#ffffff',
             borderRadius: 2,
@@ -149,7 +149,7 @@ const FridgeView: React.FC = () => {
                   </Grid>
                 ))
               ) : (
-                <Typography align="center" color="textSecondary">
+                <Typography mx={2} my={1} align="center" color="textSecondary">
                   No items in the fridge. Add something!
                 </Typography>
               )}
