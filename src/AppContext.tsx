@@ -152,6 +152,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 			...prevLists,
 			{ name, ingredients: [] },
 		]);
+		displaySuccessNotification("Shopping list created successfully!");
+
 	};
 
 	const selectShoppingList = (name: string) => {
